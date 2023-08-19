@@ -1,0 +1,88 @@
+﻿@model newWebAppA00272195.Models.Book;
+
+@{
+  ViewData["Title"] = "My Book Tracking App";
+}
+
+<div class="row align-items-start">
+  <div class="col-md-6">
+    <h4>@ViewData["Title"]</h4>
+
+  <div class="col-md-6 align-self-start">
+   <div class="card w-85">
+  <div class="card-body">
+    <h5 class="card-title">Add a book to catalogue </h5>
+      </br>
+     <form method="post" asp-controller="Home" asp-action="Create">
+      <input type="hidden" asp-for="Id" />
+      <div class="form-group">
+        @Html.LabelFor(m => m.Isbn, new { @class="control-label" })
+        @Html.TextBoxFor(m => m.Isbn, new { @class="form-control" })
+        <span asp-validation-for="Isbn" class="text-danger"></span>
+      </div>
+        </br>
+     <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class="control-label" })
+        @Html.TextBoxFor(m => m.Title, new { @class="form-control" })
+      </div>
+        </br>
+      <div class="form-group">
+       <label class="control-label"> Category</label>
+       @Html.DropDownListFor(m => m.SelectedCategoryId, new SelectList(Model.Categories, "Id", "NameToken"), "Select Category", new { @class = "form-control" })
+      </div>
+       </br>
+      <div class="form-group">
+        @Html.LabelFor(m => m.Author, new { @class="control-label" })
+        @Html.TextBoxFor(m => m.Author, new { @class="form-control" })
+      </div>
+      <div class="form-group">
+        </br>
+        <input type="submit" class="btn btn-primary">
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
+
+ </br>
+<div class="card" style="width: 43rem;">
+  <div class="card-header">
+   Book catalogue
+  </div>
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+       <th scope="col">Isbn</th>
+       <th scope="col">Author</th>
+       <th scope="col">Catalogue Date</th>
+    </tr>
+  </thead>
+  <tbody>
+   @if (Model.BookList.Count == 0)
+    {
+      <p>There are no books in your catalogue.</p>
+    }
+ 
+      @foreach (var bookItem in Model.BookList)
+     {  
+      <tr>
+         <td> @bookItem.Title </td>
+         <td> @bookItem.Isbn </td>
+         <td> @bookItem.Author </td>
+         <td> @bookItem.CreatedDate </td>
+       </tr>
+      }
+
+  </tbody>
+</table>
+</div>
+
+  </br>
+    <form action="/index/delete" method="post">
+      <button type="submit" name="button" class="btn btn-danger">Clear All </button>
+    </form>
+
+  </div>
+</div>
+
